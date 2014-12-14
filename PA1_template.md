@@ -1,13 +1,9 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
 
 
 ## Loading and preprocessing the data
-```{r}
+
+```r
 setwd("~/Repos/RepData_PeerAssessment1/")
 # Create data directory
 if(!file.exists("./data/")){
@@ -24,7 +20,8 @@ data$date <- as.Date(data$date, format = "%Y-%m-%d")
 ## What is mean total number of steps taken per day?
 
 1. Make a histogram of the total number of steps taken each day
-```{r}
+
+```r
 library(ggplot2)
 
 daily.steps <- aggregate(steps ~ date, data, FUN = sum)
@@ -34,39 +31,52 @@ ggplot(daily.steps) + geom_bar(aes(date,steps),stat="identity") + theme_minimal(
   geom_hline(yintercept=median(daily.steps$steps),colour="blue",linetype = "dashed")  
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-2-1.png) 
+
 2. Calculate and report the mean and median total number of steps taken per day
-```{r}
+
+```r
 daily.steps.mean <- mean(daily.steps$steps)
 daily.steps.median <- median(daily.steps$steps)
 ```
-**Mean:** `r daily.steps.mean`  
-**Median:** `r daily.steps.median`
+**Mean:** 1.0766189\times 10^{4}  
+**Median:** 10765
 
 
 ## What is the average daily activity pattern?
 1. Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
-```{r}
+
+```r
 steps.interval <- aggregate(steps ~ interval, data, FUN = mean)
 ggplot(steps.interval) + geom_line(aes(interval,steps)) + theme_minimal()
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-4-1.png) 
+
 2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
-```{r}
+
+```r
 steps.interval$interval[which.max(steps.interval$steps)]
+```
+
+```
+## [1] 835
 ```
 
 ## Imputing missing values
 
 1. Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
-```{r}
+
+```r
 sum(is.na(data))
 ```
 
-2. Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
-```{r}
-
-
 ```
+## [1] 2304
+```
+
+2. Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
+
 
 
 3. Create a new dataset that is equal to the original dataset but with the missing data filled in.
